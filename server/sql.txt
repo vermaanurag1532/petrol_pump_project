@@ -1,0 +1,20 @@
+CREATE TABLE `Petrol Pump` (
+    `Petrol Pump ID` VARCHAR(255) UNIQUE,
+    `Name` VARCHAR(255),
+    `Location` VARCHAR(255)
+);
+
+json data:
+{
+  "name": "Anurag",
+  "location": "Gomtinagar"
+}
+
+CREATE TABLE `Petrol Pump` (
+    `Petrol Pump ID` VARCHAR(255) UNIQUE,
+    `Vehicle ID` VARCHAR(255),
+    `Entering Time` VARCHAR(255),
+    `Exit Time` VARCHAR(255),
+    `Filling Time` VARCHAR(255),
+    `Date` DATE
+);
