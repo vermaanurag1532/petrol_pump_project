@@ -9,9 +9,9 @@ class Config:
     MIN_WINDOW_HEIGHT = 800
     
     # YOLO configurations
-    VEHICLE_MODEL = 'yolov8m.pt'
-    HELMET_MODEL = 'best (2).pt'
-    SMOKE_FIRE_MODEL = 'best (10).pt'
+    VEHICLE_MODEL = 'models/yolov8m.pt'
+    HELMET_MODEL = 'models/best (2).pt'
+    SMOKE_FIRE_MODEL = 'models/best (10).pt'
     YOLO_CONFIDENCE = 0.6
     YOLO_CLASSES = [2, 3, 5, 7]  # Vehicle classes
     

@@ -309,7 +309,7 @@ class VehicleTrackingUI:
 
         # Create output video writer
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        output_path = f"output_{timestamp}.mp4"
+        output_path = f"output/output_{timestamp}.mp4"
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')
         self.output_video = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
 
