@@ -10,11 +10,12 @@ json data:
   "location": "Gomtinagar"
 }
 
-CREATE TABLE `Petrol Pump` (
-    `Petrol Pump ID` VARCHAR(255) UNIQUE,
+CREATE TABLE `Petrol Pump Detail` (
+    `Petrol Pump ID` VARCHAR(255),
     `Vehicle ID` VARCHAR(255),
     `Entering Time` VARCHAR(255),
     `Exit Time` VARCHAR(255),
     `Filling Time` VARCHAR(255),
-    `Date` DATE
+    `Date` DATE,
+    FOREIGN KEY (`Petrol Pump ID`) REFERENCES `Petrol Pump`(`Petrol Pump ID`)
 );
