@@ -4,7 +4,7 @@ const PetrolPumpRepository = {
     insertPetrolPump: (params) => {
         return new Promise((resolve, reject) => {
             const query = `
-                INSERT INTO \`Petrol Pump\` (\`Petrol Pump ID\`, \`Name\`, \`Location\`) 
+                INSERT INTO \`Petrol Pump\` (\`petrolPumpID\`, \`Name\`, \`Location\`) 
                 VALUES (?, ?, ?)
             `;
             connection.query(query, params, (err, results) => {
@@ -17,7 +17,7 @@ const PetrolPumpRepository = {
     getAllPetrolPumps: () => {
         return new Promise((resolve, reject) => {
             const query = `
-                SELECT \`Petrol Pump ID\`, \`Name\`, \`Location\`
+                SELECT \`petrolPumpID\`, \`Name\`, \`Location\`
                 FROM \`Petrol Pump\`
             `;
             connection.query(query, (err, results) => {
@@ -30,7 +30,7 @@ const PetrolPumpRepository = {
     getPetrolPumpById: (id) => {
         return new Promise((resolve, reject) => {
             const query = `
-                SELECT \`Petrol Pump ID\`, \`Name\`, \`Location\`
+                SELECT \`petrolPumpID\`, \`Name\`, \`Location\`
                 FROM \`Petrol Pump\`
                 WHERE \`Petrol Pump ID\` = ?
             `;
@@ -46,7 +46,7 @@ const PetrolPumpRepository = {
             const query = `
                 UPDATE \`Petrol Pump\`
                 SET \`Name\` = ?, \`Location\` = ?
-                WHERE \`Petrol Pump ID\` = ?
+                WHERE \`petrolPumpID\` = ?
             `;
             connection.query(query, params, (err, results) => {
                 if (err) reject(err);
@@ -59,7 +59,7 @@ const PetrolPumpRepository = {
         return new Promise((resolve, reject) => {
             const query = `
                 DELETE FROM \`Petrol Pump\`
-                WHERE \`Petrol Pump ID\` = ?
+                WHERE \`petrolPumpID\` = ?
             `;
             connection.query(query, [id], (err, results) => {
                 if (err) reject(err);
@@ -71,14 +71,15 @@ const PetrolPumpRepository = {
     getLastPetrolPumpID: () => {
         return new Promise((resolve, reject) => {
             const query = `
-                SELECT \`Petrol Pump ID\`
+                SELECT \`petrolPumpID\`
                 FROM \`Petrol Pump\`
-                ORDER BY CAST(SUBSTRING_INDEX(\`Petrol Pump ID\`, '-', -1) AS UNSIGNED) DESC
+                ORDER BY CAST(SUBSTRING_INDEX(\`petrolPumpID\`, '-', -1) AS UNSIGNED) DESC
                 LIMIT 1
             `;
             connection.query(query, (err, results) => {
+                console.log(results[0]);
                 if (err) reject(err);
-                else resolve(results[0]?.['Petrol Pump ID'] || null);
+                else resolve(results[0]?.['petrolPumpID'] || null);
             });
         });
     }

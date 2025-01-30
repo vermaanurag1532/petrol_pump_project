@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Light Mode */
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #007bff;
+  --secondary: #6c757d;
+  --border: #dddddd;
+  --accent: #ffcc00;
+  --hover-accent: #e6b800;
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #fdfcfc;
+    --foreground: #000000;
+    --primary: #4aa3ff;
+    --secondary: #adb5bd;
+    --border: #333;
+    --accent: #ffcc00;
+    --hover-accent: #e6b800;
+  }
+}
+
+body {
+  @apply bg-[var(--background)] text-[var(--foreground)] font-sans;
+}
+
+/* Navbar Styling */
+.navbar {
+  @apply bg-[var(--primary)] text-white p-4;
+}
+
+.navbar .container {
+  @apply max-w-7xl mx-auto flex justify-between items-center;
+}
+
+.navbar .logo {
+  @apply text-2xl font-bold text-white;
+}
+
+.navbar .button {
+  @apply bg-[var(--accent)] text-white px-4 py-2 rounded-lg hover:bg-[var(--hover-accent)] transition duration-200;
+}
+
+/* Custom Card Styling */
+.petrol-pump-card {
+  @apply flex items-center justify-between p-4 rounded-lg shadow-lg border border-[var(--border)] transition-all duration-300;
+}
+
+.petrol-pump-card:hover {
+  @apply shadow-xl scale-105;
+}
+
+/* Responsive Design for Petrol Pump Card */
+@media (max-width: 768px) {
+  .petrol-pump-card {
+    @apply flex-col text-center;
+  }
+  .petrol-pump-card .button {
+    @apply w-full mt-2;
+  }
+}
+
+/* Additional Button Styles */
+.button-primary {
+  @apply bg-[var(--primary)] text-white px-4 py-2 rounded-lg hover:bg-[var(--hover-accent)] transition duration-200;
+}

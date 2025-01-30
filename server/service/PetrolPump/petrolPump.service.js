@@ -3,6 +3,8 @@ import PetrolPumpRepository from '../../repository/PetrolPump/petrolPump.reposit
 const PetrolPumpService = {
     createPetrolPump: async (name, location) => {
         const lastID = await PetrolPumpRepository.getLastPetrolPumpID();
+        console.log("Last ID fetched: ", lastID); // Add this line
+
         let newID;
 
         if (lastID) {
@@ -11,6 +13,8 @@ const PetrolPumpService = {
         } else {
             newID = 'IOCL-1';
         }
+
+        console.log("New ID generated: ", newID); // Add this line
 
         return await PetrolPumpRepository.insertPetrolPump([newID, name, location]);
     },

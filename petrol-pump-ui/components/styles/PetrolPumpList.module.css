@@ -1,0 +1,21 @@
+.petrolPumpList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 20px;
+  justify-content: center;
+}
+
+.loadingText {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.errorText {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #d9534f;
+}
