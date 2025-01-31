@@ -114,25 +114,26 @@ const PetrolPumpDetail: React.FC = () => {
         fileDownload(blob, "ipo_data.doc");
     };
 
-    // PDF download function
-    const downloadPDF = () => {
-        const doc = new jsPDF();
-    
-        // Cast to any to ensure autoTable is recognized
-        (doc as any).autoTable({
-            head: [["Vehicle ID", "Entering Time", "Exit Time", "Filling Time", "Date"]],
-            body: ipoData?.map((data) => [
-                data.VehicleID,
-                data.EnteringTime,
-                data.ExitTime,
-                data.FillingTime,
-                data.Date,
-            ]),
-            startY: 30,
-        });
-    
-        doc.save("ipo_data.pdf");
-    };
+// PDF download function
+const downloadPDF = () => {
+    const doc = new jsPDF();
+
+    // Now autoTable will be recognized without casting to `any`
+    doc.autoTable({
+        head: [["Vehicle ID", "Entering Time", "Exit Time", "Filling Time", "Date"]],
+        body: ipoData?.map((data) => [
+            data.VehicleID,
+            data.EnteringTime,
+            data.ExitTime,
+            data.FillingTime,
+            data.Date,
+        ]),
+        startY: 30,
+    });
+
+    doc.save("ipo_data.pdf");
+};
+
 
     if (loading) return <p>Loading petrol pump details...</p>;
     if (error) return <p>Error: {error}</p>;
