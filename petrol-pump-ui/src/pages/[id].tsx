@@ -112,11 +112,9 @@ const PetrolPumpDetail: React.FC = () => {
     // PDF download function
     const downloadPDF = () => {
         const doc = new jsPDF();
-        doc.setFontSize(16);
-        doc.text("Ipo Data", 20, 20);
     
-        // Now `autoTable` will be recognized
-        doc.autoTable({
+        // Cast to any to ensure autoTable is recognized
+        (doc as any).autoTable({
             head: [["Vehicle ID", "Entering Time", "Exit Time", "Filling Time", "Date"]],
             body: ipoData?.map((data) => [
                 data.VehicleID,
