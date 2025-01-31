@@ -13,6 +13,11 @@ interface PetrolPump {
     Location: string;
 }
 
+declare module "jspdf" {
+    interface jsPDF {
+        autoTable: any; 
+    }
+}
 interface IpoData {
     VehicleID: string;
     EnteringTime: string;
