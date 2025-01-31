@@ -38,9 +38,8 @@ const AddPetrolPumpModal: React.FC<ModalProps> = ({ closeModal }) => {
 
       alert("Petrol pump added successfully!");
       closeModal();
-    } catch (err) {
-      setError("Failed to add petrol pump. Please try again.");
-    } finally {
+    }
+    finally {
       setLoading(false);
     }
   };
