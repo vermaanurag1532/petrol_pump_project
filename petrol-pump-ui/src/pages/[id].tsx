@@ -15,7 +15,14 @@ interface PetrolPump {
 
 declare module "jspdf" {
     interface jsPDF {
-        autoTable: any; 
+        autoTable: (
+            options: {
+                head: string[][];
+                body: string[][];
+                startY?: number;
+                theme?: string;
+            }
+        ) => jsPDF;
     }
 }
 interface IpoData {
@@ -118,7 +125,7 @@ const PetrolPumpDetail: React.FC = () => {
 const downloadPDF = () => {
     const doc = new jsPDF();
 
-    // Now autoTable will be recognized without casting to `any`
+    // Provide an empty array if ipoData is undefined
     doc.autoTable({
         head: [["Vehicle ID", "Entering Time", "Exit Time", "Filling Time", "Date"]],
         body: ipoData?.map((data) => [
@@ -127,13 +134,12 @@ const downloadPDF = () => {
             data.ExitTime,
             data.FillingTime,
             data.Date,
-        ]),
+        ]) || [],  // Fallback to empty array if ipoData is undefined
         startY: 30,
     });
 
     doc.save("ipo_data.pdf");
 };
-
 
     if (loading) return <p>Loading petrol pump details...</p>;
     if (error) return <p>Error: {error}</p>;
