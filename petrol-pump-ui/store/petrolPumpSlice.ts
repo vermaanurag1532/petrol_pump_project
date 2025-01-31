@@ -17,8 +17,9 @@ const initialState: PetrolPumpState = {
 export const fetchPetrolPumps = createAsyncThunk(
   "petrolPump/fetchPetrolPumps",
   async () => {
-    const response = await axios.get(`${BASE_URL}/PetrolPumps/`);
-    return response.data;
+    const response = await fetch(`${BASE_URL}/PetrolPumps/`);
+    if (!response.ok) throw new Error("Network response was not ok");
+    return await response.json();
   }
 );
 

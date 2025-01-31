@@ -32,7 +32,7 @@ const PetrolPumpRepository = {
             const query = `
                 SELECT \`petrolPumpID\`, \`Name\`, \`Location\`
                 FROM \`Petrol Pump\`
-                WHERE \`Petrol Pump ID\` = ?
+                WHERE \`PetrolPumpID\` = ?
             `;
             connection.query(query, [id], (err, results) => {
                 if (err) reject(err);

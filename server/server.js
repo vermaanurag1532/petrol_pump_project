@@ -1,19 +1,21 @@
 import express from 'express';
 import cors from 'cors';
 import petrolPumpRouter from './routes/petrolPump.router.js';
-import PetrolPumpDetailController from './controller/PetrolPump/detail.controller.js';
 
 const app = express();
 const PORT = 3000;
 
+// ✅ Move this to the top
 app.use(cors({
-  origin: 'http://localhost:3001', 
-  methods: 'GET,POST,PUT,DELETE', 
-  allowedHeaders: 'Content-Type, Authorization' 
+  origin: '*',  // Allow all origins
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
+// Middleware for JSON parsing
 app.use(express.json());
 
+// ✅ Remove the duplicate CORS middleware (not needed)
 app.use('/PetrolPumps', petrolPumpRouter);
 
 app.listen(PORT, () => {

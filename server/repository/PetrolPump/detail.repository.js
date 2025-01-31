@@ -5,11 +5,11 @@ const PetrolPumpRepository = {
         return new Promise((resolve, reject) => {
             const query = `
                 INSERT INTO \`Petrol Pump Detail\` (
-                    \`Petrol Pump ID\`, 
-                    \`Vehicle ID\`, 
-                    \`Entering Time\`, 
-                    \`Exit Time\`, 
-                    \`Filling Time\`, 
+                    \`PetrolPumpID\`, 
+                    \`VehicleID\`, 
+                    \`EnteringTime\`, 
+                    \`ExitTime\`, 
+                    \`FillingTime\`, 
                     \`Date\`
                 ) VALUES (?, ?, ?, ?, ?, ?)
             `;
@@ -24,11 +24,11 @@ const PetrolPumpRepository = {
         return new Promise((resolve, reject) => {
             const query = `
                 SELECT 
-                    \`Petrol Pump ID\`, 
-                    \`Vehicle ID\`, 
-                    \`Entering Time\`, 
-                    \`Exit Time\`, 
-                    \`Filling Time\`, 
+                    \`PetrolPump ID\`, 
+                    \`VehicleID\`, 
+                    \`EnteringTime\`, 
+                    \`ExitTime\`, 
+                    \`FillingTime\`, 
                     \`Date\`
                 FROM \`Petrol Pump Detail\`
             `;
@@ -43,18 +43,18 @@ const PetrolPumpRepository = {
         return new Promise((resolve, reject) => {
             const query = `
                 SELECT 
-                    \`Petrol Pump ID\`, 
-                    \`Vehicle ID\`, 
-                    \`Entering Time\`, 
-                    \`Exit Time\`, 
-                    \`Filling Time\`, 
+                    \`PetrolPumpID\`, 
+                    \`VehicleID\`, 
+                    \`EnteringTime\`, 
+                    \`ExitTime\`, 
+                    \`FillingTime\`, 
                     \`Date\`
                 FROM \`Petrol Pump Detail\`
-                WHERE \`Petrol Pump ID\` = ?
+                WHERE \`PetrolPumpID\` = ?
             `;
             connection.query(query, [id], (err, results) => {
                 if (err) reject(err);
-                else resolve(results[0] || null);
+                else resolve(results || null);
             });
         });
     },
@@ -64,12 +64,12 @@ const PetrolPumpRepository = {
             const query = `
                 UPDATE \`Petrol Pump Detail\`
                 SET 
-                    \`Vehicle ID\` = ?, 
-                    \`Entering Time\` = ?, 
-                    \`Exit Time\` = ?, 
-                    \`Filling Time\` = ?, 
+                    \`VehicleID\` = ?, 
+                    \`EnteringTime\` = ?, 
+                    \`ExitTime\` = ?, 
+                    \`FillingTime\` = ?, 
                     \`Date\` = ?
-                WHERE \`Petrol Pump ID\` = ?
+                WHERE \`PetrolPumpID\` = ?
             `;
             connection.query(query, params, (err, results) => {
                 if (err) reject(err);
@@ -82,7 +82,7 @@ const PetrolPumpRepository = {
         return new Promise((resolve, reject) => {
             const query = `
                 DELETE FROM \`Petrol Pump Detail\`
-                WHERE \`Petrol Pump ID\` = ?
+                WHERE \`PetrolPumpID\` = ?
             `;
             connection.query(query, [id], (err, results) => {
                 if (err) reject(err);
@@ -101,7 +101,7 @@ const PetrolPumpRepository = {
             `;
             connection.query(query, [petrolPumpID, date], (err, results) => {
                 if (err) reject(err);
-                else resolve(results[0] || null); // Return the record or null if not found
+                else resolve(results || null); // Return the record or null if not found
             });
         });
     },
