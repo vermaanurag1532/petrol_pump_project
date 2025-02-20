@@ -3,6 +3,8 @@ import numpy as np
 from ultralytics import YOLO
 from sort import Sort
 from config import Config
+from datetime import datetime
+from api_client import post_vehicle_entry, update_vehicle_exit
 
 class VideoProcessor:
     def __init__(self):
@@ -28,6 +30,7 @@ class VideoProcessor:
         # Initialize smoke detection history
         self.smoke_history = []
         self.history_length = 5
+        self.tracked_vehicles = {}
 
     def enhance_frame_for_smoke_detection(self, frame):
         """Enhance frame for better smoke detection."""
@@ -179,6 +182,7 @@ class VideoProcessor:
             thickness
         )
 
+
     def process_frame(self, frame, roi_points):
         """Process a single frame for vehicle detection, helmet detection, and smoke/fire detection."""
         processed_frame = frame.copy()
@@ -229,9 +233,58 @@ class VideoProcessor:
             detections = np.array(detections)
             tracked_objects = self.tracker.update(detections)
 
+            current_time = datetime.now().strftime("%H:%M:%S")
+            current_date = datetime.now().strftime("%Y-%m-%d")
+
             for track in tracked_objects:
                 x1, y1, x2, y2, track_id = track.astype(int)
+                center_x = (x1 + x2) // 2
+                center_y = (y1 + y2) // 2
                 color = Config.COLORS[int(track_id) % len(Config.COLORS)]
+
+                # Check if the vehicle is in the ROI
+                in_roi = self.point_in_polygon((center_x, center_y), roi_points)
+
+                # Track vehicle entry and exit
+                if track_id not in self.tracked_vehicles:
+                    # Vehicle is newly detected
+                    self.tracked_vehicles[track_id] = {
+                        "entry_time": None,
+                        "exit_time": None,
+                        "in_roi": False,
+                        "date": current_date
+                    }
+
+                if in_roi and not self.tracked_vehicles[track_id]["in_roi"]:
+                    # Vehicle entered ROI
+                    self.tracked_vehicles[track_id]["entry_time"] = current_time
+                    self.tracked_vehicles[track_id]["in_roi"] = True
+
+                    # Send entry data to the server
+                    post_vehicle_entry(
+                        petrol_pump_id="IOCL-3",  # Replace with actual petrol pump ID
+                        vehicle_id=str(track_id),
+                        entering_time=current_time,
+                        date=current_date
+                    )
+
+                elif not in_roi and self.tracked_vehicles[track_id]["in_roi"]:
+                    # Vehicle exited ROI
+                    entry_time = self.tracked_vehicles[track_id]["entry_time"]
+                    exit_time = current_time
+                    filling_time = self.calculate_filling_time(entry_time, exit_time)
+
+                    # Update exit data on the server
+                    update_vehicle_exit(
+                        petrol_pump_id="IOCL-1",  # Replace with actual petrol pump ID
+                        vehicle_id=str(track_id),
+                        exit_time=exit_time,
+                        filling_time=filling_time
+                    )
+
+                    # Mark vehicle as exited
+                    self.tracked_vehicles[track_id]["in_roi"] = False
+                    self.tracked_vehicles[track_id]["exit_time"] = exit_time
 
                 # Check for helmet
                 helmet_detected = False
@@ -242,6 +295,7 @@ class VideoProcessor:
                             helmet_detected = True
                             break
 
+                # Draw bounding box and labels
                 cv2.rectangle(processed_frame, (x1, y1), (x2, y2), color, 3)
                 id_text = f"ID: {track_id}"
                 self.draw_label(processed_frame, id_text, (x1, y1 - 45), color)
@@ -255,3 +309,13 @@ class VideoProcessor:
             cv2.polylines(processed_frame, [roi_points.reshape((-1, 1, 2))], True, (0, 255, 0), 2)
 
         return processed_frame, tracked_objects
+
+    def calculate_filling_time(self, entry_time, exit_time):
+        """
+        Calculate the filling time in minutes.
+        """
+        fmt = "%H:%M:%S"
+        start = datetime.strptime(entry_time, fmt)
+        end = datetime.strptime(exit_time, fmt)
+        delta = end - start
+        return f"{delta.seconds // 60} mins"

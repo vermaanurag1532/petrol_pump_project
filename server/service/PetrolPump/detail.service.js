@@ -20,16 +20,15 @@ const PetrolPumpService = {
         return await PetrolPumpRepository.getPetrolPumpById(id);
     },
 
-    updatePetrolPump: async (petrolPumpID, vehicleID, enteringTime, exitTime, fillingTime, date) => {
-        return await PetrolPumpRepository.updatePetrolPump([
+    updatePetrolPump: async (petrolPumpID, vehicleID, exitTime, fillingTime) => {
+        return await PetrolPumpRepository.updatePetrolPump({
+            petrolPumpID,
             vehicleID,
-            enteringTime,
             exitTime,
-            fillingTime,
-            date,
-            petrolPumpID
-        ]);
+            fillingTime
+        });
     },
+    
 
     deletePetrolPumpById: async (id) => {
         return await PetrolPumpRepository.deletePetrolPumpById(id);

@@ -63,15 +63,13 @@ const PetrolPumpRepository = {
         return new Promise((resolve, reject) => {
             const query = `
                 UPDATE \`Petrol Pump Detail\`
-                SET 
-                    \`VehicleID\` = ?, 
-                    \`EnteringTime\` = ?, 
+                SET  
                     \`ExitTime\` = ?, 
-                    \`FillingTime\` = ?, 
-                    \`Date\` = ?
-                WHERE \`PetrolPumpID\` = ?
+                    \`FillingTime\` = ?
+                WHERE \`VehicleID\` = ? AND \`PetrolPumpID\` = ?
             `;
-            connection.query(query, params, (err, results) => {
+            const values = [params.exitTime, params.fillingTime, params.vehicleID, params.petrolPumpID];
+            connection.query(query, values, (err, results) => {
                 if (err) reject(err);
                 else resolve(results);
             });

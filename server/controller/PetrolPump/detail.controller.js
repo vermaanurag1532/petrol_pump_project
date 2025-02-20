@@ -43,14 +43,12 @@ const PetrolPumpDetailController = {
 
     updatePetrolPump: async (req, res) => {
         try {
-            const { petrolPumpID, vehicleID, enteringTime, exitTime, fillingTime, date } = req.body;
+            const { petrolPumpID, vehicleID, exitTime, fillingTime } = req.body;
             const result = await PetrolPumpService.updatePetrolPump(
                 petrolPumpID,
                 vehicleID,
-                enteringTime,
                 exitTime,
-                fillingTime,
-                date
+                fillingTime
             );
             res.status(200).json({ message: 'Petrol Pump record updated successfully.', data: result });
         } catch (error) {

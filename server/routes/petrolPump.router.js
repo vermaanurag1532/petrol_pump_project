@@ -8,7 +8,7 @@ PetrolPumpRouter.post('/detail', PetrolPumpDetailController.createPetrolPump);
 PetrolPumpRouter.get('/detail', PetrolPumpDetailController.getAllPetrolPumps); 
 PetrolPumpRouter.get('/detail/:id', PetrolPumpDetailController.getPetrolPumpById); 
 PetrolPumpRouter.get('/detail/:id/:date', PetrolPumpDetailController.getPetrolPumpByIdAndDate);
-PetrolPumpRouter.put('/detail/:id', PetrolPumpDetailController.updatePetrolPump); 
+PetrolPumpRouter.put('/detail/:Pid/:Vid', PetrolPumpDetailController.updatePetrolPump); 
 PetrolPumpRouter.delete('/detail/:id', PetrolPumpDetailController.deletePetrolPumpById); 
 
 PetrolPumpRouter.post('/', PetrolPumpController.createPetrolPump); 
