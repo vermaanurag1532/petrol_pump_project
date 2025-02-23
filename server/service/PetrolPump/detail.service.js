@@ -1,41 +1,72 @@
 import PetrolPumpRepository from '../../repository/PetrolPump/detail.repository.js';
 
 const PetrolPumpService = {
-    createPetrolPump: async (petrolPumpID, vehicleID, enteringTime, exitTime, fillingTime, date) => {
-        return await PetrolPumpRepository.insertPetrolPump([
-            petrolPumpID,
-            vehicleID,
-            enteringTime,
-            exitTime,
-            fillingTime,
-            date
-        ]);
+    createPetrolPump: async (data) => {
+        try {
+            const result = await PetrolPumpRepository.createPetrolPump([
+                data.petrolPumpID,
+                data.VehicleID,
+                data.EnteringTime,
+                data.ExitTime,
+                data.FillingTime,
+                data.Date,
+                data.ServerConnected
+            ]);
+            return result;
+        } catch (error) {
+            throw error;
+        }
     },
 
     getAllPetrolPumps: async () => {
-        return await PetrolPumpRepository.getAllPetrolPumps();
+        try {
+            const result = await PetrolPumpRepository.getAllPetrolPumps();
+            return result;
+        } catch (error) {
+            throw error;
+        }
     },
 
     getPetrolPumpById: async (id) => {
-        return await PetrolPumpRepository.getPetrolPumpById(id);
+        try {
+            const result = await PetrolPumpRepository.getPetrolPumpById(id);
+            return result;
+        } catch (error) {
+            throw error;
+        }
     },
 
-    updatePetrolPump: async (petrolPumpID, vehicleID, exitTime, fillingTime) => {
-        return await PetrolPumpRepository.updatePetrolPump({
-            petrolPumpID,
-            vehicleID,
-            exitTime,
-            fillingTime
-        });
+    getPetrolPumpByIdAndDate: async (id, date) => {
+        try {
+            const result = await PetrolPumpRepository.getPetrolPumpByIdAndDate(id, date);
+            return result;
+        } catch (error) {
+            throw error;
+        }
     },
-    
+
+    updatePetrolPump: async (petrolPumpID, vehicleID, exitTime, fillingTime, serverConnected) => {
+        try {
+            const result = await PetrolPumpRepository.updatePetrolPump(
+                petrolPumpID,
+                vehicleID,
+                exitTime,
+                fillingTime,
+                serverConnected
+            );
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    },
 
     deletePetrolPumpById: async (id) => {
-        return await PetrolPumpRepository.deletePetrolPumpById(id);
-    },
-
-    getPetrolPumpByIdAndDate: async (petrolPumpID, date) => {
-        return await PetrolPumpRepository.getPetrolPumpByIdAndDate(petrolPumpID, date);
+        try {
+            const result = await PetrolPumpRepository.deletePetrolPumpById(id);
+            return result;
+        } catch (error) {
+            throw error;
+        }
     },
 };
 

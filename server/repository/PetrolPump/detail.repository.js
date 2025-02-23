@@ -1,17 +1,18 @@
 import connection from '../../db/connection.js';
 
 const PetrolPumpRepository = {
-    insertPetrolPump: (params) => {
+    createPetrolPump: (params) => {
         return new Promise((resolve, reject) => {
             const query = `
                 INSERT INTO \`Petrol Pump Detail\` (
-                    \`PetrolPumpID\`, 
-                    \`VehicleID\`, 
-                    \`EnteringTime\`, 
-                    \`ExitTime\`, 
-                    \`FillingTime\`, 
-                    \`Date\`
-                ) VALUES (?, ?, ?, ?, ?, ?)
+                    petrolPumpID, 
+                    VehicleID, 
+                    EnteringTime, 
+                    ExitTime, 
+                    FillingTime, 
+                    Date,
+                    ServerConnected
+                ) VALUES (?, ?, ?, ?, ?, ?, ?)
             `;
             connection.query(query, params, (err, results) => {
                 if (err) reject(err);
@@ -24,12 +25,13 @@ const PetrolPumpRepository = {
         return new Promise((resolve, reject) => {
             const query = `
                 SELECT 
-                    \`PetrolPump ID\`, 
-                    \`VehicleID\`, 
-                    \`EnteringTime\`, 
-                    \`ExitTime\`, 
-                    \`FillingTime\`, 
-                    \`Date\`
+                    petrolPumpID, 
+                    VehicleID, 
+                    EnteringTime, 
+                    ExitTime, 
+                    FillingTime, 
+                    Date,
+                    ServerConnected
                 FROM \`Petrol Pump Detail\`
             `;
             connection.query(query, (err, results) => {
@@ -43,33 +45,55 @@ const PetrolPumpRepository = {
         return new Promise((resolve, reject) => {
             const query = `
                 SELECT 
-                    \`PetrolPumpID\`, 
-                    \`VehicleID\`, 
-                    \`EnteringTime\`, 
-                    \`ExitTime\`, 
-                    \`FillingTime\`, 
-                    \`Date\`
+                    petrolPumpID, 
+                    VehicleID, 
+                    EnteringTime, 
+                    ExitTime, 
+                    FillingTime, 
+                    Date,
+                    ServerConnected
                 FROM \`Petrol Pump Detail\`
-                WHERE \`PetrolPumpID\` = ?
+                WHERE petrolPumpID = ?
             `;
             connection.query(query, [id], (err, results) => {
                 if (err) reject(err);
-                else resolve(results || null);
+                else resolve(results[0] || null);
             });
         });
     },
 
-    updatePetrolPump: (params) => {
+    getPetrolPumpByIdAndDate: (id, date) => {
+        return new Promise((resolve, reject) => {
+            const query = `
+                SELECT 
+                    petrolPumpID, 
+                    VehicleID, 
+                    EnteringTime, 
+                    ExitTime, 
+                    FillingTime, 
+                    Date,
+                    ServerConnected
+                FROM \`Petrol Pump Detail\`
+                WHERE petrolPumpID = ? AND Date = ?
+            `;
+            connection.query(query, [id, date], (err, results) => {
+                if (err) reject(err);
+                else resolve(results[0] || null);
+            });
+        });
+    },
+
+    updatePetrolPump: (petrolPumpID, vehicleID, exitTime, fillingTime, serverConnected) => {
         return new Promise((resolve, reject) => {
             const query = `
                 UPDATE \`Petrol Pump Detail\`
                 SET  
-                    \`ExitTime\` = ?, 
-                    \`FillingTime\` = ?
-                WHERE \`VehicleID\` = ? AND \`PetrolPumpID\` = ?
+                    ExitTime = ?, 
+                    FillingTime = ?,
+                    ServerConnected = ?
+                WHERE petrolPumpID = ? AND VehicleID = ?
             `;
-            const values = [params.exitTime, params.fillingTime, params.vehicleID, params.petrolPumpID];
-            connection.query(query, values, (err, results) => {
+            connection.query(query, [exitTime, fillingTime, serverConnected, petrolPumpID, vehicleID], (err, results) => {
                 if (err) reject(err);
                 else resolve(results);
             });
@@ -80,26 +104,11 @@ const PetrolPumpRepository = {
         return new Promise((resolve, reject) => {
             const query = `
                 DELETE FROM \`Petrol Pump Detail\`
-                WHERE \`PetrolPumpID\` = ?
+                WHERE petrolPumpID = ?
             `;
             connection.query(query, [id], (err, results) => {
                 if (err) reject(err);
                 else resolve(results);
-            });
-        });
-    },
-
-    getPetrolPumpByIdAndDate: (petrolPumpID, date) => {
-        return new Promise((resolve, reject) => {
-            const query = `
-                SELECT \`Petrol Pump ID\`, \`Vehicle ID\`, \`Entering Time\`, \`Exit Time\`, 
-                       \`Filling Time\`, \`Date\`
-                FROM \`Petrol Pump\`
-                WHERE \`Petrol Pump ID\` = ? AND \`Date\` = ?
-            `;
-            connection.query(query, [petrolPumpID, date], (err, results) => {
-                if (err) reject(err);
-                else resolve(results || null); // Return the record or null if not found
             });
         });
     },

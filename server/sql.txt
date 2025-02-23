@@ -17,6 +17,7 @@ CREATE TABLE `Petrol Pump Detail` (
     `ExitTime` VARCHAR(255),
     `FillingTime` VARCHAR(255),
     `Date` DATE,
+    `ServerConnected` VARCHAR(255),
     FOREIGN KEY (`petrolPumpID`) REFERENCES `Petrol Pump`(`petrolPumpID`)
 );
 
