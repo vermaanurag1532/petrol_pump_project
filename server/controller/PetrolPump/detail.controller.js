@@ -13,7 +13,7 @@ const PetrolPumpController = {
     getAllPetrolPumps: async (req, res) => {
         try {
             const result = await PetrolPumpService.getAllPetrolPumps();
-            res.status(200).json({ data: result });
+            res.status(200).json(result);
         } catch (error) {
             res.status(500).json({ message: 'Error fetching Petrol Pumps', error: error.message });
         }
@@ -25,7 +25,7 @@ const PetrolPumpController = {
             if (!result) {
                 return res.status(404).json({ message: 'Petrol Pump not found' });
             }
-            res.status(200).json({ data: result });
+            res.status(200).json(result);
         } catch (error) {
             res.status(500).json({ message: 'Error fetching Petrol Pump', error: error.message });
         }
@@ -37,7 +37,7 @@ const PetrolPumpController = {
             if (!result) {
                 return res.status(404).json({ message: 'Petrol Pump not found' });
             }
-            res.status(200).json({ data: result });
+            res.status(200).json(result);
         } catch (error) {
             res.status(500).json({ message: 'Error fetching Petrol Pump', error: error.message });
         }
